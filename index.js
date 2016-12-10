@@ -1,4 +1,5 @@
 exports = module.exports = {
+  'exchange/otp': require('./xom/exchange/otp'),
   'exchange/push': require('./xom/exchange/push')
 };
 

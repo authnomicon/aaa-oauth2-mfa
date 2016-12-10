@@ -53,6 +53,15 @@ exports = module.exports = function() {
      status_msg: 'Login request denied.' },
       */
       
+      // when factor is sms
+/*
+{ response: 
+   { result: 'deny',
+     status: 'sent',
+     status_msg: 'New SMS passcodes sent.' },
+  stat: 'OK' }
+*/
+      
       if (data.stat == 'OK') {
         if (data.response.result == 'waiting') {
           return cb(new TokenError('Authorization pending', 'authorization_pending'));
