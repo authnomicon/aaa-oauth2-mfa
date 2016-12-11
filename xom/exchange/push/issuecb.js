@@ -1,4 +1,4 @@
-exports = module.exports = function() {
+exports = module.exports = function(verify) {
   var TokenError = require('oauth2orize-mfa').TokenError;
   
   var Client = require('duo_api').Client;
@@ -23,61 +23,24 @@ exports = module.exports = function() {
     console.log('Verify the MFA txn/code, etc...');
     console.log(body);
     
-    dclient.jsonApiCall('GET', '/auth/v2/auth_status', { txid: pushCode }, function(data) {
-      console.log(data);
+    // TODO: Put user and deviceID here
+    verify(undefined, undefined, pushCode, function(err, ok) {
+      console.log(err)
+      console.log(ok)
       
-      //if (data.stat == 'OK') {
-      //  console.log(data.response.devices);
-      //}
-      
-/*
-{ response: 
-   { result: 'waiting',
-     status: 'pushed',
-     status_msg: 'Pushed a login request to your device...' },
-  stat: 'OK' }
-*/
-      
-      /*
-{ response: 
-   { result: 'allow',
-     status: 'allow',
-     status_msg: 'Success. Logging you in...' },
-  stat: 'OK' }
-      */
-      
-      /*
-{ response: 
-   { result: 'deny',
-     status: 'deny',
-     status_msg: 'Login request denied.' },
-      */
-      
-      // when factor is sms
-/*
-{ response: 
-   { result: 'deny',
-     status: 'sent',
-     status_msg: 'New SMS passcodes sent.' },
-  stat: 'OK' }
-*/
-      
-      if (data.stat == 'OK') {
-        if (data.response.result == 'waiting') {
-          return cb(new TokenError('Authorization pending', 'authorization_pending'));
-        } else if (data.response.result == 'deny') {
-          return cb(new TokenError('Authorization denied', 'invalid_grant'));
-        } else if (data.response.result == 'allow') {
-          return cb(null, 'some-access-token-goes-here');
-        }
+      if (err) { return cb(err); }
+      if (ok === undefined) {
+        return cb(new TokenError('Authorization pending', 'authorization_pending'));
       }
+      if (!ok) {
+        return cb(new TokenError('Authorization denied', 'invalid_grant'));
+      }
+      return cb(null, 'some-access-token-goes-here');
     });
-    
-    
-    //return cb(null, '74tq5miHKB', '94248');
   };
 };
 
 
 exports['@require'] = [
+  'http://schemas.authnomicon.org/js/login/mfa/opt/duo/oob/verify'
 ];
