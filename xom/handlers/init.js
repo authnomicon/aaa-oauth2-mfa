@@ -1,7 +1,11 @@
 exports = module.exports = function(challenge) {
   
   function handle(req, res, next) {
-    challenge({ id: 1 }, req.params.id, function(err, params) {
+    console.log('CHALLENGE IT:');
+    console.log(req.body);
+    
+    //challenge({ id: 1 }, req.params.id, function(err, params) {
+    challenge({ id: 1 }, req.params.id, { type: 'oob' }, function(err, params) {
       if (err) { return next(err); }
       
       params = params || { type: 'otp' };
@@ -20,15 +24,20 @@ exports = module.exports = function(challenge) {
     case 'otp':
       break;
     case 'oob':
-      body.oob_code = params.txid;
+      body.oob_code = params.transactionID;
       break;
     }
+    
+    
+    console.log('RESPOND WITH BODY:');
+    console.log(body);
     
     res.json(body);
   }
 
 
   return [
+    require('body-parser').urlencoded({ extended: false }),
     handle,
     respond
   ];
@@ -37,5 +46,6 @@ exports = module.exports = function(challenge) {
 
 exports['@require'] = [
   //'http://schemas.authnomicon.org/js/login/mfa/opt/authy/challenge'
-  'http://schemas.authnomicon.org/js/login/mfa/opt/duo/challenge'
+  //'http://schemas.authnomicon.org/js/login/mfa/opt/duo/challenge'
+  'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/challenge'
 ];

@@ -27,5 +27,6 @@ exports = module.exports = function(credentialsDir) {
 
 exports['@require'] = [
   //'http://schemas.authnomicon.org/js/login/mfa/opt/authy/CredentialDirectory'
-  'http://schemas.authnomicon.org/js/login/mfa/opt/duo/CredentialDirectory'
+  //'http://schemas.authnomicon.org/js/login/mfa/opt/duo/CredentialDirectory'
+  'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/UserAuthenticatorsDirectory'
 ];

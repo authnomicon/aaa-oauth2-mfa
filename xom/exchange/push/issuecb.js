@@ -19,12 +19,12 @@ exports = module.exports = function(verify) {
   */
   
   
-  return function issueToken(client, pushCode, scope, body, authInfo, cb) {
+  return function issueToken(client, user, oobCode, scope, body, onefaInfo, authInfo, cb) {
     console.log('Verify the MFA txn/code, etc...');
     console.log(body);
     
     // TODO: Put user and deviceID here
-    verify(undefined, undefined, pushCode, function(err, ok) {
+    verify(user, undefined, oobCode, function(err, ok) {
       console.log(err)
       console.log(ok)
       
@@ -42,5 +42,5 @@ exports = module.exports = function(verify) {
 
 
 exports['@require'] = [
-  'http://schemas.authnomicon.org/js/login/mfa/opt/duo/oob/verify'
+  'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/oob/verify'
 ];

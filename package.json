@@ -17,6 +17,7 @@
   "main": "./index.js",
   "dependencies": {
     "authy": "^1.2.0",
+    "body-parser": "^1.15.2",
     "duo_api": "git://github.com/duosecurity/duo_api_nodejs.git#7c523ec"
   },
   "devDependencies": {
