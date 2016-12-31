@@ -12,6 +12,8 @@ exports = module.exports = function(credentialsDir) {
   }
   
   function respond(req, res, next) {
+    // TODO: Strip an private properties prefixed by underscore
+    
     res.json({
       credentials: res.locals.credentials
     });
