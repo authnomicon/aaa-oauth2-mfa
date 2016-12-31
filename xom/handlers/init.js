@@ -1,11 +1,30 @@
-exports = module.exports = function(challenge) {
+exports = module.exports = function(challenge, authenticators) {
   
-  function handle(req, res, next) {
+  function initialize(req, res, next) {
     console.log('CHALLENGE IT:');
     console.log(req.body);
+    console.log(req.params);
+    
+    req.locals = req.locals || {};
+    next();
+  }
+  
+  function loadAuthenticator(req, res, next) {
+    authenticators.get(req.user, req.params.id, function(err, authenticator) {
+      if (err) { return next(err); }
+      
+      console.log(authenticator);
+      req.locals.authenticator = authenticator;
+      next();
+    });
+  }
+  
+  function handle(req, res, next) {
+    
+    
     
     //challenge({ id: 1 }, req.params.id, function(err, params) {
-    challenge({ id: 1 }, req.params.id, { type: 'oob' }, function(err, params) {
+    challenge(req.locals.authenticator, { type: 'otp' }, function(err, params) {
       if (err) { return next(err); }
       
       params = params || { type: 'otp' };
@@ -38,6 +57,8 @@ exports = module.exports = function(challenge) {
 
   return [
     require('body-parser').urlencoded({ extended: false }),
+    initialize,
+    loadAuthenticator,
     handle,
     respond
   ];
@@ -45,7 +66,8 @@ exports = module.exports = function(challenge) {
 };
 
 exports['@require'] = [
-  //'http://schemas.authnomicon.org/js/login/mfa/opt/authy/challenge'
-  //'http://schemas.authnomicon.org/js/login/mfa/opt/duo/challenge'
-  'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/challenge'
+  'http://schemas.authnomicon.org/js/login/mfa/opt/authy/challenge',
+  //'http://schemas.authnomicon.org/js/login/mfa/opt/duo/challenge',
+  //'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/challenge',
+  'http://schemas.authnomicon.org/js/login/mfa/opt/authy/UserAuthenticatorsDirectory'
 ];
