@@ -1,4 +1,4 @@
-exports = module.exports = function(verify) {
+exports = module.exports = function(verify, authenticators) {
   var TokenError = require('oauth2orize-mfa').TokenError;
   
   var Client = require('duo_api').Client;
@@ -23,24 +23,42 @@ exports = module.exports = function(verify) {
     console.log('Verify the MFA txn/code, etc...');
     console.log(body);
     
-    // TODO: Put user and deviceID here
-    verify(user, undefined, oobCode, function(err, ok) {
-      console.log(err)
-      console.log(ok)
-      
+    // TODO: Decode the oob code to determine the authenticator ID, context
+    
+    var authenticatorID = '0';
+    var context = {};
+    
+    authenticators.get(user, authenticatorID, function(err, authenticator) {
       if (err) { return cb(err); }
-      if (ok === undefined) {
-        return cb(new TokenError('Authorization pending', 'authorization_pending'));
+    
+      var transactionID = undefined;
+      var opts = { context: context };
+      if (body.confirmation_code) {
+        opts.secret = body.confirmation_code;
       }
-      if (!ok) {
-        return cb(new TokenError('Authorization denied', 'invalid_grant'));
-      }
-      return cb(null, 'some-access-token-goes-here');
+    
+    
+      // TODO: Put user and deviceID here
+      verify(authenticator, context.transactionID, opts, function(err, ok) {
+        console.log(err)
+        console.log(ok)
+      
+        if (err) { return cb(err); }
+        if (ok === undefined) {
+          return cb(new TokenError('Authorization pending', 'authorization_pending'));
+        }
+        if (!ok) {
+          return cb(new TokenError('Authorization denied', 'invalid_grant'));
+        }
+        return cb(null, 'some-access-token-goes-here');
+      });
     });
   };
 };
 
 
 exports['@require'] = [
-  'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/oob/verify'
+  //'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/oob/verify'
+  'http://schemas.authnomicon.org/js/login/mfa/opt/authy/oob/verify',
+  'http://schemas.authnomicon.org/js/login/mfa/opt/authy/UserAuthenticatorsDirectory'
 ];

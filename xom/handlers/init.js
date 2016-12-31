@@ -24,11 +24,14 @@ exports = module.exports = function(challenge, authenticators) {
     
     
     //challenge({ id: 1 }, req.params.id, function(err, params) {
-    challenge(req.locals.authenticator, { type: 'otp' }, function(err, params) {
+    challenge(req.locals.authenticator, { type: 'oob' }, function(err, params, ctx) {
       if (err) { return next(err); }
       
       params = params || { type: 'otp' };
+      ctx = ctx || {};
+      
       res.locals.params = params;
+      res.locals.code = ctx.transactionID || '1234';
       next();
     });
   }
@@ -43,7 +46,10 @@ exports = module.exports = function(challenge, authenticators) {
     case 'otp':
       break;
     case 'oob':
-      body.oob_code = params.transactionID;
+      body.oob_code = res.locals.code;
+      if (params.confirmation) {
+        body.confirmation_channel = params.confirmation.channel;
+      }
       break;
     }
     
