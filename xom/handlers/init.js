@@ -24,7 +24,8 @@ exports = module.exports = function(challenge, authenticators) {
     
     
     //challenge({ id: 1 }, req.params.id, function(err, params) {
-    challenge(req.locals.authenticator, { type: 'oob' }, function(err, params, ctx) {
+    //challenge(req.locals.authenticator, { type: 'oob' }, function(err, params, ctx) {
+    challenge(req.locals.authenticator, function(err, params, ctx) {
       if (err) { return next(err); }
       
       params = params || { type: 'otp' };
