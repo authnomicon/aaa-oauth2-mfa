@@ -1,7 +1,7 @@
 exports = module.exports = {
-  'otp/grant': require('./otp/grant'),
-  'oob/grant': require('./oob/grant'),
-  'recovery/grant': require('./recovery/grant'),
+  'otp/exchange': require('./otp/exchange'),
+  'oob/exchange': require('./oob/exchange'),
+  'recovery/exchange': require('./recovery/exchange'),
   'tokens/dialects/jwt-oob-code/interpret': require('./tokens/dialects/jwt-oob-code/interpret'),
   'tokens/dialects/jwt-oob-code/translate': require('./tokens/dialects/jwt-oob-code/translate')
 };
