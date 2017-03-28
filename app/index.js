@@ -2,8 +2,8 @@ exports = module.exports = {
   'otp/exchange': require('./otp/exchange'),
   'oob/exchange': require('./oob/exchange'),
   'recovery/exchange': require('./recovery/exchange'),
-  'tokens/dialects/jwt-oob-code/interpret': require('./tokens/dialects/jwt-oob-code/interpret'),
-  'tokens/dialects/jwt-oob-code/translate': require('./tokens/dialects/jwt-oob-code/translate')
+  'tokens/oob-code/interpret': require('./tokens/oob-code/interpret'),
+  'tokens/oob-code/translate': require('./tokens/oob-code/translate')
 };
 
 exports.load = function(id) {

@@ -75,7 +75,7 @@ exports = module.exports = function(challenge, Authenticators, issueToken, authe
         transactionID: res.locals.code
       }
       
-      issueToken(ctx, { dialect: 'http://schemas.authnomicon.org/aaa/tokens/dialect/jwt/mfa-oob-code' }, function(err, oobCode) {
+      issueToken(ctx, { dialect: 'http://schemas.authnomicon.org/tokens/jwt/mfa-oob-code' }, function(err, oobCode) {
         console.log('ISSUED OOB CODE!');
         console.log(err);
         console.log(oobCode);

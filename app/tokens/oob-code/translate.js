@@ -30,4 +30,4 @@ exports = module.exports = function() {
 };
 
 exports['@implements'] = 'http://i.bixbyjs.org/tokens/translateContextFunc';
-exports['@dialect'] = 'http://schemas.authnomicon.org/aaa/tokens/dialect/jwt/mfa-oob-code';
+exports['@dialect'] = 'http://schemas.authnomicon.org/tokens/jwt/mfa-oob-code';
