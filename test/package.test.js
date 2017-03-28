@@ -4,10 +4,17 @@ var pkg = require('..');
 var expect = require('chai').expect;
 
 
-describe('nodex-aaa-oauth2-mfa', function() {
+describe('@authnomicon/aaa-oauth2-mfa', function() {
   
-  it('should export hello world', function() {
-    expect(pkg.hello).to.equal('world');
+  it('should export manifest', function() {
+    expect(pkg).to.be.an('object');
+    expect(Object.keys(pkg)).to.have.length(6);
+    
+    expect(pkg['otp/exchange']).to.be.a('function');
+    expect(pkg['oob/exchange']).to.be.a('function');
+    expect(pkg['recovery/exchange']).to.be.a('function');
+    expect(pkg['tokens/oob-code/interpret']).to.be.a('function');
+    expect(pkg['tokens/oob-code/translate']).to.be.a('function');
   });
   
 });
