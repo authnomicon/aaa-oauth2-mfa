@@ -1,3 +1,4 @@
+/*
 exports = module.exports = {
   'otp/exchange': require('./otp/exchange'),
   'oob/exchange': require('./oob/exchange'),
@@ -5,8 +6,9 @@ exports = module.exports = {
   'tokens/oob-code/interpret': require('./tokens/oob-code/interpret'),
   'tokens/oob-code/translate': require('./tokens/oob-code/translate')
 };
+*/
 
-exports.load = function(id) {
+exports = module.exports = function(id) {
   try {
     return require('./' + id);
   } catch (ex) {

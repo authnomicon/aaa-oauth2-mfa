@@ -22,6 +22,16 @@
     }
   ],
   "main": "./app",
+  "assembly": {
+    "namespace": "oauth2/mfa",
+    "components": [
+      "otp/exchange",
+      "oob/exchange",
+      "recovery/exchange",
+      "tokens/oob-code/interpret",
+      "tokens/oob-code/translate"
+    ]
+  },
   "dependencies": {
     "authy": "^1.2.0",
     "body-parser": "^1.15.2",
