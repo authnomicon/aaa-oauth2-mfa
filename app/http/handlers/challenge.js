@@ -4,6 +4,8 @@ exports = module.exports = function(challenge, Authenticators, issueToken, authe
     Tokens.decipher(req.body.mfa_token, function(err, claims, issuer) {
       if (err) { return next(err); }
       
+      // FIXME: Put this back
+      /*
       authenticateToken(claims.subject, issuer, function(err, user) {
         if (err) { return next(err); }
         // TODO: 404, if no user
@@ -12,6 +14,10 @@ exports = module.exports = function(challenge, Authenticators, issueToken, authe
         req.user = user;
         next();
       });
+      */
+      
+      req.user = { id: '1' }
+      next();
     });
   }
   
@@ -65,7 +71,7 @@ exports = module.exports = function(challenge, Authenticators, issueToken, authe
       ctx.user = req.user;
       ctx.client = req.user;
       ctx.audience = [ {
-        id: 'http://localhost/mfa',
+        id: 'http://localhost/token',
         //secret: 'some-shared-with-rs-s3cr1t-asdfasdfaieraadsfiasdfasd'
         secret: 'some-secret-shared-with-oauth-authorization-server'
       } ];
@@ -133,7 +139,7 @@ exports['@require'] = [
   'http://schemas.authnomicon.org/js/login/mfa/opt/duo/UserAuthenticatorsDirectory',
   'http://schemas.authnomicon.org/js/aaa/oauth2/util/issueToken',
   'http://i.bixbyjs.org/http/Authenticator',
-  'http://i.bixbyjs.org/aaa/token/authenticate',
+  'http://i.bixbyjs.org/security/authentication/token/authenticate',
   'http://i.bixbyjs.org/tokens'
   //'http://schemas.authnomicon.org/js/login/mfa/opt/duo/CredentialDirectory'
   //'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/UserAuthenticatorsDirectory'

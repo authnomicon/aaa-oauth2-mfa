@@ -25,6 +25,7 @@
   "assembly": {
     "namespace": "oauth2/mfa",
     "components": [
+      "http/service",
       "otp/exchange",
       "oob/exchange",
       "recovery/exchange",
@@ -35,7 +36,8 @@
   "dependencies": {
     "authy": "^1.2.0",
     "body-parser": "^1.15.2",
-    "duo_api": "git://github.com/duosecurity/duo_api_nodejs.git#7c523ec"
+    "duo_api": "git://github.com/duosecurity/duo_api_nodejs.git#7c523ec",
+    "express": "^4.15.3"
   },
   "devDependencies": {
     "make-node": "^0.3.0",
