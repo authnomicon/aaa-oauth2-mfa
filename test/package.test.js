@@ -1,20 +1,25 @@
 /* global describe, it */
 
-var pkg = require('..');
 var expect = require('chai').expect;
 
 
 describe('@authnomicon/aaa-oauth2-mfa', function() {
   
-  it('should export manifest', function() {
-    expect(pkg).to.be.an('object');
-    expect(Object.keys(pkg)).to.have.length(6);
+  describe('package.json', function() {
+    var json = require('../package.json');
     
-    expect(pkg['otp/exchange']).to.be.a('function');
-    expect(pkg['oob/exchange']).to.be.a('function');
-    expect(pkg['recovery/exchange']).to.be.a('function');
-    expect(pkg['tokens/oob-code/interpret']).to.be.a('function');
-    expect(pkg['tokens/oob-code/translate']).to.be.a('function');
+    it('should have assembly metadata', function() {
+      expect(json.assembly.namespace).to.equal('oauth2/mfa');
+      
+      expect(json.assembly.components).to.have.length(6);
+      expect(json.assembly.components).to.include('oob/exchange');
+    });
+  });
+  
+  it('should throw if required', function() {
+    expect(function() {
+      var pkg = require('..');
+    }).to.throw(Error).with.property('code', 'MODULE_NOT_FOUND');
   });
   
 });
