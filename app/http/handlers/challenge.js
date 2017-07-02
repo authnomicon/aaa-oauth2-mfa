@@ -28,7 +28,7 @@ exports = module.exports = function(challenge, Authenticators, issueToken, authe
       if (err) { return next(err); }
       res.locals.authenticators = authenticators;
       
-      if (!authenticators) {
+      if (!authenticators || authenticators.length == 0) {
         // TODO: Make this a better error.
         res.json({ error: 'enrollment_required' });
         return;

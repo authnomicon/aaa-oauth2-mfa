@@ -23,5 +23,5 @@ exports = module.exports = function(parse, mfaConfirm) {
 
 exports['@require'] = [
   'http://i.bixbyjs.org/http/middleware/parse',
-  'http://schemas.authnomicon.org/js/login/mfa/opt/duo/confirm'
+  'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/confirm'
 ];

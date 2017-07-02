@@ -21,5 +21,5 @@ exports = module.exports = function(parse, mfaRegister) {
 
 exports['@require'] = [
   'http://i.bixbyjs.org/http/middleware/parse',
-  'http://schemas.authnomicon.org/js/login/mfa/opt/duo/register'
+  'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/register'
 ];
