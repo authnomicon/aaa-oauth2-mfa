@@ -29,6 +29,8 @@
       "otp/exchange",
       "oob/exchange",
       "recovery/exchange",
+      "tokens/bind/interpret",
+      "tokens/bind/translate",
       "tokens/oob-code/interpret",
       "tokens/oob-code/translate"
     ]

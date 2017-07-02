@@ -11,7 +11,7 @@ describe('@authnomicon/aaa-oauth2-mfa', function() {
     it('should have assembly metadata', function() {
       expect(json.assembly.namespace).to.equal('oauth2/mfa');
       
-      expect(json.assembly.components).to.have.length(6);
+      expect(json.assembly.components).to.have.length(8);
       expect(json.assembly.components).to.include('oob/exchange');
     });
   });

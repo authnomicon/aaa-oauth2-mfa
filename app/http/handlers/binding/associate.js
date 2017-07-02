@@ -1,4 +1,4 @@
-exports = module.exports = function(parse, mfaAssociate) {
+exports = module.exports = function(parse, mfaAssociate, Tokens) {
   
   function restoreContext(req, res, next) {
     req.user = { id: '1' }
@@ -29,12 +29,41 @@ exports = module.exports = function(parse, mfaAssociate) {
     
     mfaAssociate(req.user, function(err, params) {
       
+      var ctx = {};
+      ctx.audience = [ {
+        id: 'http://localhost/mfa',
+        secret: 'some-secret-shared-with-oauth-authorization-server'
+      } ];
+      ctx.context = params.context;
+    
+      var opt = {};
+      opt.dialect = 'http://schemas.authnomicon.org/tokens/jwt/mfa-bind';
+      // TODO: Make this confidential
+      opt.confidential = false;
+    
+      // TODO: Ensure that code has a TTL of 10 minutes
+      Tokens.cipher(ctx, opt, function(err, code) {
+        console.log(err);
+        console.log(code);
+        
+        if (err) { return next(err); }
+        
+        var body = {};
+        body.authenticator_type = 'oob';
+        body.secret = params.secret;
+        body.url = params.url;
+        body.bind_code = code;
+        return res.json(body);
+      });
+      
+      /*
       var body = {};
       body.authenticator_type = 'oob';
       body.secret = params.secret;
       body.url = params.url;
       
       return res.json(body);
+      */
     });
   }
 
@@ -50,5 +79,6 @@ exports = module.exports = function(parse, mfaAssociate) {
 
 exports['@require'] = [
   'http://i.bixbyjs.org/http/middleware/parse',
-  'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/associate'
+  'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/associate',
+  'http://i.bixbyjs.org/tokens'
 ];
