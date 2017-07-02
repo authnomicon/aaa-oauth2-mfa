@@ -27,6 +27,13 @@ exports = module.exports = function(challenge, Authenticators, issueToken, authe
     Authenticators.list(req.user, function(err, authenticators) {
       if (err) { return next(err); }
       res.locals.authenticators = authenticators;
+      
+      if (!authenticators) {
+        // TODO: Make this a better error.
+        res.json({ error: 'enrollment_required' });
+        return;
+      }
+      
       next();
     });
   }
@@ -36,6 +43,7 @@ exports = module.exports = function(challenge, Authenticators, issueToken, authe
     
     console.log('CONTINUE MFA!');
     console.log(res.locals.authenticators);
+    
     
     var authnr = res.locals.authenticators[0];
     challenge(authnr, function(err, params, ctx) {
@@ -135,8 +143,8 @@ exports = module.exports = function(challenge, Authenticators, issueToken, authe
 };
 
 exports['@require'] = [
-  'http://schemas.authnomicon.org/js/login/mfa/opt/duo/challenge',
-  'http://schemas.authnomicon.org/js/login/mfa/opt/duo/UserAuthenticatorsDirectory',
+  'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/challenge',
+  'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/UserAuthenticatorsDirectory',
   'http://schemas.authnomicon.org/js/aaa/oauth2/util/issueToken',
   'http://i.bixbyjs.org/http/Authenticator',
   'http://i.bixbyjs.org/security/authentication/token/authenticate',
