@@ -51,7 +51,7 @@ exports = module.exports = function(parse, mfaAssociate, Tokens) {
         var body = {};
         body.authenticator_type = 'oob';
         body.secret = params.secret;
-        body.url = params.url;
+        body.barcode_uri = params.barcodeURL;
         body.bind_code = code;
         return res.json(body);
       });
