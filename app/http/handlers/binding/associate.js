@@ -34,6 +34,7 @@ exports = module.exports = function(parse, mfaAssociate, Tokens) {
         id: 'http://localhost/mfa',
         secret: 'some-secret-shared-with-oauth-authorization-server'
       } ];
+      ctx.type = params.type;
       ctx.context = params.context;
     
       var opt = {};
@@ -50,7 +51,10 @@ exports = module.exports = function(parse, mfaAssociate, Tokens) {
         
         var body = {};
         body.bind_code = code;
-        body.authenticator_type = 'oob';
+        body.authenticator_type = params.type;
+        if (params.alternateTypes) {
+          body.alternate_authenticator_types = params.alternateTypes;
+        }
         body.secret = params.secret;
         body.barcode_uri = params.barcodeURL;
         return res.json(body);

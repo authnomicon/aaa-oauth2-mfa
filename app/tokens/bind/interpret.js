@@ -12,6 +12,7 @@ exports = module.exports = function() {
     }
     
     var params = {};
+    params.type = claims.aty;
     params.context = claims.ctx;
         
     return cb(null, params);

@@ -7,7 +7,7 @@ exports = module.exports = function() {
     console.log(ctx);
     
     // TODO: Put some at_hash of the mfa_token...
-    
+    claims.aty = ctx.type;
     claims.ctx = ctx.context;
     return cb(null, claims);
   };

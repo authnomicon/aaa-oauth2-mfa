@@ -1,4 +1,4 @@
-exports = module.exports = function(parse, mfaConfirm, Tokens) {
+exports = module.exports = function(parse, mfaConfirm, otpVerify, Tokens) {
   
   function resumeSession(req, res, next) {
     console.log('!!! RESUME !!!');
@@ -44,6 +44,17 @@ exports = module.exports = function(parse, mfaConfirm, Tokens) {
     
     var opts = req.locals.context;
     
+    if (req.body.authenticator_type == 'otp') {
+      console.log('TODO: enroll otp...');
+      
+      otpVerify({ _userID: 'twitter|1705' }, req.body.otp, { accessToken: req.locals.context.transactionToken }, function(err, ok) {
+        console.log(err);
+        console.log(ok);
+      })
+      
+      return;
+    }
+    
     mfaConfirm(opts, function(err, ok) {
       console.log('!! CONFIRMED!');
       console.log(err);
@@ -75,5 +86,6 @@ exports = module.exports = function(parse, mfaConfirm, Tokens) {
 exports['@require'] = [
   'http://i.bixbyjs.org/http/middleware/parse',
   'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/confirm',
+  'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/otp/verify',
   'http://i.bixbyjs.org/tokens'
 ];
