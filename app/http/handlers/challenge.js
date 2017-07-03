@@ -49,9 +49,6 @@ exports = module.exports = function(challenge, Authenticators, issueToken, authe
     challenge(authnr, function(err, params, ctx) {
       if (err) { return next(err); }
       
-      console.log(params)
-      console.log(ctx);
-      
       params = params || { type: 'otp' };
       ctx = ctx || {};
       
@@ -90,10 +87,6 @@ exports = module.exports = function(challenge, Authenticators, issueToken, authe
       }
       
       issueToken(ctx, { dialect: 'http://schemas.authnomicon.org/tokens/jwt/mfa-oob-code' }, function(err, oobCode) {
-        console.log('ISSUED OOB CODE!');
-        console.log(err);
-        console.log(oobCode);
-
         if (err) { return next(err); }
 
         res.locals.code = oobCode;
