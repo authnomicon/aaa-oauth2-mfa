@@ -49,10 +49,10 @@ exports = module.exports = function(parse, mfaAssociate, Tokens) {
         if (err) { return next(err); }
         
         var body = {};
+        body.bind_code = code;
         body.authenticator_type = 'oob';
         body.secret = params.secret;
         body.barcode_uri = params.barcodeURL;
-        body.bind_code = code;
         return res.json(body);
       });
       
