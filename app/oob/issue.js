@@ -54,12 +54,8 @@ exports = module.exports = function(verify, authenticators, Tokens) {
             opts.secret = body.binding_code;
           }
     
-    
-          // TODO: Put user and deviceID here
-          verify(authenticator, claims.challenge.transactionID, opts, function(err, ok) {
-            console.log(err)
-            console.log(ok)
-      
+          
+          verify(authenticator, claims.challenge.transactionID, function(err, ok) {
             if (err) { return cb(err); }
             if (ok === undefined) {
               return cb(new TokenError('Authorization pending', 'authorization_pending'));
@@ -82,7 +78,8 @@ exports = module.exports = function(verify, authenticators, Tokens) {
 
 exports['@require'] = [
   //'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/oob/verify'
-  'http://schemas.authnomicon.org/js/login/mfa/opt/duo/oob/verify',
-  'http://schemas.authnomicon.org/js/login/mfa/opt/duo/UserAuthenticatorsDirectory',
+  //'http://schemas.authnomicon.org/js/login/mfa/opt/duo/oob/verify',
+  'http://schemas.authnomicon.org/js/security/authentication/oob/verify',
+  'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/UserAuthenticatorsDirectory',
   'http://i.bixbyjs.org/tokens'
 ];
