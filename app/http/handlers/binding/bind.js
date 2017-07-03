@@ -85,7 +85,7 @@ exports = module.exports = function(parse, mfaConfirm, otpVerify, Tokens) {
 
 exports['@require'] = [
   'http://i.bixbyjs.org/http/middleware/parse',
-  'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/confirm',
-  'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/otp/verify',
+  'http://schemas.authnomicon.org/js/login/mfa/opt/duo/bind',
+  'http://schemas.authnomicon.org/js/login/mfa/opt/duo/otp/verify',
   'http://i.bixbyjs.org/tokens'
 ];

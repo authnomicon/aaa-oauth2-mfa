@@ -136,8 +136,8 @@ exports = module.exports = function(challenge, Authenticators, issueToken, authe
 };
 
 exports['@require'] = [
-  'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/challenge',
-  'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/UserAuthenticatorsDirectory',
+  'http://schemas.authnomicon.org/js/login/mfa/opt/duo/challenge',
+  'http://schemas.authnomicon.org/js/login/mfa/opt/duo/UserAuthenticatorsDirectory',
   'http://schemas.authnomicon.org/js/aaa/oauth2/util/issueToken',
   'http://i.bixbyjs.org/http/Authenticator',
   'http://i.bixbyjs.org/security/authentication/token/authenticate',

@@ -83,6 +83,6 @@ exports = module.exports = function(parse, mfaAssociate, Tokens) {
 
 exports['@require'] = [
   'http://i.bixbyjs.org/http/middleware/parse',
-  'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/associate',
+  'http://schemas.authnomicon.org/js/login/mfa/opt/duo/associate',
   'http://i.bixbyjs.org/tokens'
 ];
