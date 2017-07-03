@@ -1,4 +1,4 @@
-exports = module.exports = function(challenge, Authenticators, issueToken, authenticator, authenticateToken, Tokens) {
+exports = module.exports = function(oobChallenge, Authenticators, issueToken, authenticator, authenticateToken, Tokens) {
   
   function resumeSession(req, res, next) {
     Tokens.decipher(req.body.mfa_token, function(err, claims, issuer) {
@@ -46,6 +46,22 @@ exports = module.exports = function(challenge, Authenticators, issueToken, authe
     
     
     var authnr = res.locals.authenticators[0];
+    if (authnr.type.indexOf('oob') != -1) {
+      
+      oobChallenge(authnr, function(err, params) {
+        if (err) { return next(err); }
+      
+        params.type = 'oob';
+        res.locals.params = params;
+        res.locals.code = params.transactionID || '1234';
+        next();
+      });
+      
+    } else if (authnr.type.indexOf('otp') != -1) {
+      // TODO:
+    }
+    
+    /*
     challenge(authnr, function(err, params, ctx) {
       if (err) { return next(err); }
       
@@ -56,6 +72,7 @@ exports = module.exports = function(challenge, Authenticators, issueToken, authe
       res.locals.code = params.transactionID || '1234';
       next();
     });
+    */
     
     //res.json({
     //  credentials: res.locals.credentials
@@ -136,7 +153,8 @@ exports = module.exports = function(challenge, Authenticators, issueToken, authe
 };
 
 exports['@require'] = [
-  'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/challenge',
+  //'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/challenge',
+  'http://schemas.authnomicon.org/js/security/authentication/oob/challenge',
   'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/UserAuthenticatorsDirectory',
   'http://schemas.authnomicon.org/js/aaa/oauth2/util/issueToken',
   'http://i.bixbyjs.org/http/Authenticator',
