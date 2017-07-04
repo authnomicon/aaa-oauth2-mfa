@@ -4,6 +4,9 @@ exports = module.exports = function(parse, mfaConfirm, otpVerify, Tokens) {
     console.log('!!! RESUME !!!');
     console.log(req.body);
     
+    // TODO: Binding isn't needed???
+    return res.json({ active: true });
+    
     var opt = {};
     opt.dialect = 'http://schemas.authnomicon.org/tokens/jwt/mfa-bind';
     Tokens.decipher(req.body.bind_code, opt, function(err, claims, issuer) {

@@ -3,7 +3,7 @@ exports = module.exports = function(associateHandler, bindHandler) {
   var router = new express.Router();
   
   router.post('/associate', associateHandler);
-  router.post('/bind', bindHandler);
+  //router.post('/bind', bindHandler);
   
   return router;
 };

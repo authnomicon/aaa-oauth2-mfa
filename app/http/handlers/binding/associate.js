@@ -50,10 +50,9 @@ exports = module.exports = function(parse, oobAssociate, Tokens) {
         if (err) { return next(err); }
         
         var body = {};
-        body.bind_code = code;
-        body.authenticator_type = params.type;
-        body.secret = params.secret;
+        body.authenticator_type = 'oob';
         body.barcode_uri = params.barcodeURL;
+        body.oob_code = code;
         return res.json(body);
       });
       
