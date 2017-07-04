@@ -1,4 +1,4 @@
-exports = module.exports = function(parse, mfaAssociate, Tokens) {
+exports = module.exports = function(parse, oobAssociate, Tokens) {
   
   function restoreContext(req, res, next) {
     req.user = { id: '1' }
@@ -27,7 +27,7 @@ exports = module.exports = function(parse, mfaAssociate, Tokens) {
     console.log(req.body)
     console.log(req.user)
     
-    mfaAssociate(req.user, function(err, params) {
+    oobAssociate(req.user, { channel: 'auth0' }, function(err, params) {
       
       var ctx = {};
       ctx.audience = [ {
@@ -52,9 +52,6 @@ exports = module.exports = function(parse, mfaAssociate, Tokens) {
         var body = {};
         body.bind_code = code;
         body.authenticator_type = params.type;
-        if (params.alternateTypes) {
-          body.alternate_authenticator_types = params.alternateTypes;
-        }
         body.secret = params.secret;
         body.barcode_uri = params.barcodeURL;
         return res.json(body);
@@ -83,6 +80,7 @@ exports = module.exports = function(parse, mfaAssociate, Tokens) {
 
 exports['@require'] = [
   'http://i.bixbyjs.org/http/middleware/parse',
-  'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/associate',
+  'http://schemas.authnomicon.org/js/security/authentication/oob/associate',
+  //'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/associate',
   'http://i.bixbyjs.org/tokens'
 ];
