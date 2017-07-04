@@ -54,8 +54,12 @@ exports = module.exports = function(verify, authenticators, Tokens) {
             opts.secret = body.binding_code;
           }
     
+          var opts = {};
+          if (claims.enroll) {
+            opts.enroll = true;
+          }
           
-          verify(authenticator, claims.challenge.transactionID, function(err, ok) {
+          verify(authenticator, claims.challenge.transactionID, opts, function(err, ok) {
             if (err) { return cb(err); }
             if (ok === undefined) {
               return cb(new TokenError('Authorization pending', 'authorization_pending'));

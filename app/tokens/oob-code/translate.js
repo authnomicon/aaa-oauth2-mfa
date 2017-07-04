@@ -25,6 +25,10 @@ exports = module.exports = function() {
       }
     }
     
+    if (ctx.enroll == true) {
+      claims.enroll = true;
+    }
+    
     return cb(null, claims);
   };
 };

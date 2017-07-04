@@ -19,6 +19,10 @@ exports = module.exports = function() {
       params.challenge.transactionID = claims.chl.ati;
     }
     
+    if (claims.enroll) {
+      params.enroll = true;
+    }
+    
     return cb(null, params);
   };
 };

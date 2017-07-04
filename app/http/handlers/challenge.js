@@ -28,7 +28,7 @@ exports = module.exports = function(oobChallenge, Authenticators, issueToken, au
       if (err) { return next(err); }
       res.locals.authenticators = authenticators;
       
-      if (!authenticators || authenticators.length == 0) {
+      if (!authenticators || authenticators.length == 0 || authenticators[0].active === false) {
         // TODO: Make this a better error.
         res.json({ error: 'enrollment_required' });
         return;
@@ -90,6 +90,7 @@ exports = module.exports = function(oobChallenge, Authenticators, issueToken, au
       
       
       var ctx = {};
+      // TODO: Remove these, hash with MFA token
       ctx.user = req.user;
       ctx.client = req.user;
       ctx.audience = [ {

@@ -30,15 +30,32 @@ exports = module.exports = function(parse, oobAssociate, Tokens) {
     oobAssociate(req.user, { channel: 'auth0' }, function(err, params) {
       
       var ctx = {};
+      // TODO: Remove these, hash with MFA/access token
+      ctx.user = req.user;
+      ctx.client = req.user;
+      /*
       ctx.audience = [ {
         id: 'http://localhost/mfa',
         secret: 'some-secret-shared-with-oauth-authorization-server'
       } ];
-      ctx.type = params.type;
-      ctx.context = params.context;
+      */
+      ctx.audience = [ {
+        id: 'http://localhost/token',
+        //secret: 'some-shared-with-rs-s3cr1t-asdfasdfaieraadsfiasdfasd'
+        secret: 'some-secret-shared-with-oauth-authorization-server'
+      } ];
+      ctx.challenge = {
+        method: 'authn',
+        authenticator: { id: params.providedID }, // TODO: Create authenticator record
+        transactionID: params.transactionID
+      }
+      // TODO: Use vectors of trust to indicate this?
+      // https://tools.ietf.org/html/draft-richer-vectors-of-trust-00
+      ctx.enroll = true;
     
       var opt = {};
-      opt.dialect = 'http://schemas.authnomicon.org/tokens/jwt/mfa-bind';
+      opt.dialect = 'http://schemas.authnomicon.org/tokens/jwt/mfa-oob-code';
+      //opt.dialect = 'http://schemas.authnomicon.org/tokens/jwt/mfa-bind';
       // TODO: Make this confidential
       opt.confidential = false;
     
