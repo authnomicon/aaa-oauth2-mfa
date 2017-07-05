@@ -28,6 +28,7 @@ exports = module.exports = function(parse, oobAssociate, Tokens) {
     console.log(req.user)
     
     oobAssociate(req.user, { channel: 'auth0' }, function(err, params) {
+      if (err) { return next(err); }
       
       var ctx = {};
       // TODO: Remove these, hash with MFA/access token
