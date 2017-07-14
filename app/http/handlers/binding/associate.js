@@ -1,4 +1,6 @@
-exports = module.exports = function(parse, oobAssociate, Tokens) {
+exports = module.exports = function(Types, initialize, parse, oobAssociate, Tokens) {
+  var merge = require('utils-merge');
+  
   
   function restoreContext(req, res, next) {
     req.user = { id: '1' }
@@ -21,11 +23,43 @@ exports = module.exports = function(parse, oobAssociate, Tokens) {
     */
   }
   
+  function obtainType(req, res, next) {
+    try {
+      // TODO: Get this from body
+      
+      req.locals.type = Types.obtainAuthenticator('oob');
+    } catch (ex) {
+      // TODO: next() this as a AuthorizationError of appropriate type
+      return next(ex);
+    }
+    next();
+  }
+  
+  function associateAuthenticator(req, res, next) {
+    var type = req.locals.type;
+    
+    function associated(err, params) {
+      if (err) { return next(err); }
+      res.locals.params = params;
+      next();
+    }
+    
+    var arity = type.challenge.length;
+    switch (arity) {
+    case 3:
+      return type.associate(req.user, req.body, associated);
+    default:
+      return type.associate(req.user, associated);
+    }
+  }
+  
   function respond(req, res, next) {
-    console.log('REGISTERING FOR MFA???');
-    console.log(req.headers)
-    console.log(req.body)
-    console.log(req.user)
+    var body = {};
+    merge(body, res.locals.params);
+    
+    res.json(body);
+    
+    return;
     
     oobAssociate(req.user, { channel: 'auth0' }, function(err, params) {
       if (err) { return next(err); }
@@ -87,15 +121,20 @@ exports = module.exports = function(parse, oobAssociate, Tokens) {
 
 
   return [
+    initialize(),
     parse('application/json'),
     // TODO: Authenticate OAuth client
     restoreContext,
+    obtainType,
+    associateAuthenticator,
     respond
   ];
   
 };
 
 exports['@require'] = [
+  '../../../authenticatortypes',
+  'http://i.bixbyjs.org/http/middleware/initialize',
   'http://i.bixbyjs.org/http/middleware/parse',
   'http://schemas.authnomicon.org/js/security/authentication/oob/associate',
   //'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/associate',

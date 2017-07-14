@@ -41,6 +41,8 @@ exports = module.exports = function(Types, Authenticators, issueToken, authentic
   }
   
   function obtainType(req, res, next) {
+    // TODO: Iterate over authenticator types property to get this (for fallbacks to OTP, etc)
+    
     try {
       req.locals.type = Types.obtainAuthenticator('oob');
     } catch (ex) {
