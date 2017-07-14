@@ -1,4 +1,6 @@
-exports = module.exports = function(oobChallenge, Authenticators, issueToken, authenticator, authenticateToken, Tokens) {
+exports = module.exports = function(Types, oobChallenge, Authenticators, issueToken, initialize, parse, authenticate, authenticateToken, Tokens) {
+  var merge = require('utils-merge');
+  
   
   function resumeSession(req, res, next) {
     Tokens.decipher(req.body.mfa_token, function(err, claims, issuer) {
@@ -38,127 +40,65 @@ exports = module.exports = function(oobChallenge, Authenticators, issueToken, au
     });
   }
   
-  function respond(req, res, next) {
-    // TODO: Strip an private properties prefixed by underscore
-    
-    console.log('CONTINUE MFA!');
-    console.log(res.locals.authenticators);
-    
-    
+  function obtainType(req, res, next) {
+    try {
+      req.locals.type = Types.obtainAuthenticator('oob');
+    } catch (ex) {
+      // TODO: next() this as a AuthorizationError of appropriate type
+      return next(ex);
+    }
+    next();
+  }
+  
+  function challengeAuthenticator(req, res, next) {
+    var type = req.locals.type;
     var authnr = res.locals.authenticators[0];
-    if (authnr.type.indexOf('oob') != -1) {
-      
-      oobChallenge(authnr, function(err, params) {
-        if (err) { return next(err); }
-      
-        params.type = 'oob';
-        res.locals.params = params;
-        res.locals.code = params.transactionID || '1234';
-        next();
-      });
-      
-    } else if (authnr.type.indexOf('otp') != -1) {
-      // TODO:
-    }
     
-    /*
-    challenge(authnr, function(err, params, ctx) {
+    function challenged(err, params) {
       if (err) { return next(err); }
-      
-      params = params || { type: 'otp' };
-      ctx = ctx || {};
-      
       res.locals.params = params;
-      res.locals.code = params.transactionID || '1234';
       next();
-    });
-    */
+    }
     
-    //res.json({
-    //  credentials: res.locals.credentials
-    //});
-  }
-  
-  function genOOBCode(req, res, next) {
-    var params = res.locals.params;
-    
-    if (params.type == 'oob') {
-      console.log('MUST GEN OOB CODE!');
-      
-      console.log(res.locals.params);
-      console.log(res.locals.code);
-      
-      
-      var ctx = {};
-      // TODO: Remove these, hash with MFA token
-      ctx.user = req.user;
-      ctx.client = req.user;
-      ctx.audience = [ {
-        id: 'http://localhost/token',
-        //secret: 'some-shared-with-rs-s3cr1t-asdfasdfaieraadsfiasdfasd'
-        secret: 'some-secret-shared-with-oauth-authorization-server'
-      } ];
-      ctx.challenge = {
-        method: 'authn',
-        authenticator: res.locals.authenticators[0],
-        transactionID: res.locals.code
-      }
-      
-      issueToken(ctx, { dialect: 'http://schemas.authnomicon.org/tokens/jwt/mfa-oob-code' }, function(err, oobCode) {
-        if (err) { return next(err); }
-
-        res.locals.code = oobCode;
-        next();
-      });
-      
-    } else {
-      next();
+    var arity = type.challenge.length;
+    switch (arity) {
+    case 3:
+      return type.challenge(authnr, req.body, challenged);
+    default:
+      return type.challenge(authnr, challenged);
     }
   }
   
-  function respond2(req, res, next) {
-    var params = res.locals.params;
-    
-    var body = {}
-    body.challenge_type = params.type;
-    
-    switch (params.type) {
-    case 'otp':
-      break;
-    case 'oob':
-      body.oob_code = res.locals.code;
-      if (params.binding) {
-        body.binding_method = params.binding.method;
-      }
-      break;
-    }
-    
-    
-    console.log('RESPOND WITH CHALLENGE:');
-    console.log(body);
+  function respond(req, res, next) {
+    var body = {};
+    merge(body, res.locals.params);
     
     res.json(body);
   }
 
 
   return [
-    require('body-parser').urlencoded({ extended: false }),
-    authenticator.authenticate(['client_secret_basic', 'client_secret_post', 'none'], { session: false, failWithError: true }),
+    initialize(),
+    parse('application/x-www-form-urlencoded'),
+    authenticate(['client_secret_basic', 'client_secret_post', 'none']),
     resumeSession,
     list,
+    obtainType,
+    challengeAuthenticator,
     respond,
-    genOOBCode,
-    respond2
   ];
   
 };
 
 exports['@require'] = [
+  '../../authenticatortypes',
   //'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/challenge',
   'http://schemas.authnomicon.org/js/security/authentication/oob/challenge',
   'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/UserAuthenticatorsDirectory',
   'http://schemas.authnomicon.org/js/aaa/oauth2/util/issueToken',
-  'http://i.bixbyjs.org/http/Authenticator',
+  'http://i.bixbyjs.org/http/middleware/initialize',
+  'http://i.bixbyjs.org/http/middleware/parse',
+  'http://i.bixbyjs.org/http/middleware/authenticate',
   'http://i.bixbyjs.org/security/authentication/token/authenticate',
   'http://i.bixbyjs.org/tokens'
   //'http://schemas.authnomicon.org/js/login/mfa/opt/duo/CredentialDirectory'

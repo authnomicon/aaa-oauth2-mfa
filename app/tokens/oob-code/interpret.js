@@ -2,15 +2,20 @@ exports = module.exports = function() {
   
   return function interpret(tok, options, cb) {
     var claims = tok.claims;
-    if (!claims.sub || !claims.cid || !claims.chl) {
+    if (!claims.chl) {
       // The claims within this token cannot be interpreted in accordance with the
       // MFA OOB code dialect.
       return cb();
     }
     
     var params = {};
+    /*
     params.subject = { id: claims.sub };
     params.client = { id: claims.cid };
+    */
+    
+    // TODO: MFA Token hash
+    
     params.challenge = {};
     
     if (claims.chl.aid) {

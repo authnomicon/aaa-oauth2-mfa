@@ -27,10 +27,9 @@
     "components": [
       "http/service",
       "otp/exchange",
+      "oob/authenticator",
       "oob/exchange",
       "recovery/exchange",
-      "tokens/bind/interpret",
-      "tokens/bind/translate",
       "tokens/oob-code/interpret",
       "tokens/oob-code/translate"
     ]
@@ -39,7 +38,8 @@
     "authy": "^1.2.0",
     "body-parser": "^1.15.2",
     "duo_api": "git://github.com/duosecurity/duo_api_nodejs.git#7c523ec",
-    "express": "^4.15.3"
+    "express": "^4.15.3",
+    "utils-merge": "^1.0.0"
   },
   "devDependencies": {
     "make-node": "^0.3.0",

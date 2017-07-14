@@ -4,6 +4,7 @@ exports = module.exports = function() {
     var claims = {}
       , chal, i, len;
     
+    /*
     if (ctx.user) {
       claims.sub = ctx.user.id;
     }
@@ -11,7 +12,10 @@ exports = module.exports = function() {
       // https://tools.ietf.org/html/draft-ietf-oauth-token-exchange-07#section-4.3
       claims.cid = ctx.client.id;
     }
-    
+    */
+      
+    // TODO: Bind to MFA token, if possible
+      
     if (ctx.challenge) {
       chal = ctx.challenge;
       switch (chal.method) {
