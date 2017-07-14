@@ -45,6 +45,7 @@ exports = module.exports = function(verify, authenticators, Tokens) {
         var authenticatorID = '0';
         var context = {};
     
+        // TODO: Just need authenticator ID here, depending on challenge type (authn, m-of-n, etc)
         authenticators.get(user.id, claims.challenge.authenticator.id, function(err, authenticator) {
           if (err) { return cb(err); }
     
