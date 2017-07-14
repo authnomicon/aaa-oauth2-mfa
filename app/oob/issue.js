@@ -45,7 +45,7 @@ exports = module.exports = function(verify, authenticators, Tokens) {
         var authenticatorID = '0';
         var context = {};
     
-        authenticators.get(claims.subject.id, claims.challenge.authenticator.id, function(err, authenticator) {
+        authenticators.get(user.id, claims.challenge.authenticator.id, function(err, authenticator) {
           if (err) { return cb(err); }
     
           var transactionID = undefined;
