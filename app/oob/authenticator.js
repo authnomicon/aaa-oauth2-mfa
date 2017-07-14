@@ -3,9 +3,6 @@ exports = module.exports = function(challenge, Tokens) {
   return {
     
     challenge: function(authnr, body, cb) {
-      console.log('OOB CHALLENGE!');
-      console.log(authnr);
-      console.log(body)
       
       challenge(authnr, function(err, txid) {
         if (err) { return cb(err); }
@@ -49,10 +46,7 @@ exports = module.exports = function(challenge, Tokens) {
           return cb(null, params);
         });
       });
-
-      
-    }
-    
+    } // challenge
     
     
   };
