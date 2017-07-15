@@ -111,7 +111,7 @@ exports = module.exports = function(challenge, associate, Tokens) {
   };
 };
 
-exports['@implements'] = 'http://schemas.authnomicon.org/js/oauth2/mfa/AuthenticatorType';
+exports['@implements'] = 'http://schemas.authnomicon.org/js/oauth2/mfa/authenticatorType';
 exports['@type'] = 'oob';
 exports['@require'] = [
   'http://schemas.authnomicon.org/js/security/authentication/oob/challenge',

@@ -8,7 +8,7 @@ exports = module.exports = function(container, logger) {
   return Promise.resolve(registry)
     .then(function(registry) {
       // Register authenticator types.
-      var typeComps = container.components('http://schemas.authnomicon.org/js/oauth2/mfa/AuthenticatorType');
+      var typeComps = container.components('http://schemas.authnomicon.org/js/oauth2/mfa/authenticatorType');
     
       return Promise.all(typeComps.map(function(comp) { return comp.create(); } ))
         .then(function(types) {
