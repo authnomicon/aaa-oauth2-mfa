@@ -26,10 +26,10 @@
     "namespace": "oauth2/mfa",
     "components": [
       "http/service",
-      "otp/exchange",
       "oob/authenticator",
-      "oob/exchange",
-      "recovery/exchange",
+      "oob/grant",
+      "otp/grant",
+      "recovery/grant",
       "tokens/oob-code/interpret",
       "tokens/oob-code/translate"
     ]

@@ -4,7 +4,7 @@ exports = module.exports = function(issue, authenticate) {
   return oauth2orize.exchange.oob({ passReqToCallback: true }, authenticate, issue);
 }
 
-exports['@implements'] = 'http://schemas.authnomicon.org/js/aaa/oauth2/exchange';
+exports['@implements'] = 'http://schemas.authnomicon.org/js/oauth2/grantType';
 exports['@type'] = 'http://auth0.com/oauth/grant-type/mfa-oob';
 exports['@require'] = [
   './issue',
