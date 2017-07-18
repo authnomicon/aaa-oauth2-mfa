@@ -26,6 +26,7 @@
     "namespace": "oauth2/mfa",
     "components": [
       "http/service",
+      "http/middleware/mfarequired",
       "oob/authenticator",
       "oob/grant",
       "otp/grant",
