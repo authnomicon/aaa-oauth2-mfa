@@ -1,34 +1,33 @@
 exports = module.exports = function() {
   
-  return function interpret(tok, options, cb) {
-    var claims = tok.claims;
+  return function interpret(tkn, options, cb) {
+    var claims = tkn.claims;
     if (!claims.chl) {
       // The claims within this token cannot be interpreted in accordance with the
       // MFA OOB code dialect.
       return cb();
     }
     
-    var params = {};
-    /*
-    params.subject = { id: claims.sub };
-    params.client = { id: claims.cid };
-    */
+    var ctx = {};
     
     // TODO: MFA Token hash
     
-    params.challenge = {};
+    ctx.challenge = {};
     
     if (claims.chl.aid) {
-      params.challenge.method = 'authn';
-      params.challenge.authenticator = { id: claims.chl.aid };
-      params.challenge.transactionID = claims.chl.ati;
+      ctx.challenge.method = 'authn';
+      ctx.challenge.authenticator = { id: claims.chl.aid };
+      ctx.challenge.transactionID = claims.chl.ati;
+    }
+    if (claims.mt_hash) {
+      ctx.mfaTokenHash = claims.mt_hash;
     }
     
     if (claims.enroll) {
-      params.enroll = true;
+      ctx.enroll = true;
     }
     
-    return cb(null, params);
+    return cb(null, ctx);
   };
 };
 
