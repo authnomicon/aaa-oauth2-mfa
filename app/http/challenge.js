@@ -11,8 +11,8 @@ exports = module.exports = function(challengeHandler, bindingService) {
   return router;
 };
 
-exports['@implements'] = 'http://schemas.authnomicon.org/js/http/oauth2/mfa/Service';
+exports['@implements'] = 'http://schemas.authnomicon.org/js/http/oauth2/mfa/ChallengeService';
 exports['@require'] = [
   './handlers/challenge',
-  './binding'
+  './association'
 ];

@@ -25,7 +25,7 @@
   "assembly": {
     "namespace": "oauth2/mfa",
     "components": [
-      "http/service",
+      "http/challenge",
       "http/middleware/mfarequired",
       "oob/authenticator",
       "oob/grant",
