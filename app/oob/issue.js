@@ -1,4 +1,5 @@
 exports = module.exports = function(verify, authenticators, Tokens) {
+  var hash = require('oidc-token-hash');
   var TokenError = require('oauth2orize-mfa').TokenError;
   
   var Client = require('duo_api').Client;
@@ -40,6 +41,11 @@ exports = module.exports = function(verify, authenticators, Tokens) {
       //return;
       
       if (err) { return cb(err); }
+      
+      if (!hash.valid(claims.mfaTokenHash, mfaToken)) {
+        return cb(new TokenError('OOB code not bound to MFA token', 'invalid_grant'));
+      }
+      
       
       // TODO: Switch based on challenge method.
       
