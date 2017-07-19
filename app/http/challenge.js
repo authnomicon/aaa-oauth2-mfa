@@ -4,10 +4,6 @@ exports = module.exports = function(challengeHandler, bindingService) {
   
   router.post('/challenge', challengeHandler);
   
-  // POST /associate
-  // POST /bind
-  router.use('/', bindingService);
-  
   return router;
 };
 
