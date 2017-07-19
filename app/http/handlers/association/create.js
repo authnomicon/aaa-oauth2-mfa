@@ -44,6 +44,7 @@ exports = module.exports = function(Types, initialize, parse, errorLogging, erro
       next();
     }
     
+    
     var arity = type.challenge.length;
     switch (arity) {
     case 3:

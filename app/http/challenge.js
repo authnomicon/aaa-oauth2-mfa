@@ -1,4 +1,4 @@
-exports = module.exports = function(challengeHandler, bindingService) {
+exports = module.exports = function(challengeHandler) {
   var express = require('express');
   var router = new express.Router();
   
@@ -9,6 +9,5 @@ exports = module.exports = function(challengeHandler, bindingService) {
 
 exports['@implements'] = 'http://schemas.authnomicon.org/js/http/oauth2/mfa/ChallengeService';
 exports['@require'] = [
-  './handlers/challenge',
-  './association'
+  './handlers/challenge'
 ];
