@@ -18,11 +18,10 @@ exports = module.exports = function(Tokens) {
         //secret: 'some-shared-with-rs-s3cr1t-asdfasdfaieraadsfiasdfasd'
       } ];
       //ctx.permissions = [ { resource: resources[0], scope: decision.allowed } ];
+      ctx.request = err.req;
       
       var opt = {};
-      // TODO: Make an mfa token dialect
-      //opt.dialect = 'http://schemas.authnomicon.org/tokens/jwt/mfa-oob-code';
-      //opt.dialect = 'http://schemas.authnomicon.org/tokens/jwt/mfa-bind';
+      opt.dialect = 'http://schemas.authnomicon.org/jwt/mfa';
       // TODO: Make this confidential
       opt.confidential = false;
       
