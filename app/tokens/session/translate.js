@@ -25,7 +25,7 @@ exports = module.exports = function() {
     }
     
     if (ctx.authN) {
-      claims.amr = ctx.authN.methods.map(function(m) { return Constants.AMR_AUTHN_METHODS_MAP[m]; });
+      claims.amr = ctx.authN.methods.map(function(m) { return Constants.AUTHN_METHODS_TO_AMR_MAP[m]; });
     }
     
     return cb(null, claims);

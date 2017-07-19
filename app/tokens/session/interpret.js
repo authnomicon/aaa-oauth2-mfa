@@ -1,4 +1,6 @@
 exports = module.exports = function() {
+  var Constants = require('../../../lib/constants');
+  
   
   return function interpret(tkn, options, cb) {
     var claims = tkn.claims;
@@ -15,6 +17,11 @@ exports = module.exports = function() {
       ctx.request = {};
       ctx.request.scope = claims.req.scp;
       ctx.request.audience = claims.req.aud;
+    }
+    
+    if (claims.amr) {
+      ctx.authN = ctx.authN || {};
+      ctx.authN.methods = claims.amr.map(function(m) { return Constants.AMR_TO_AUTHN_METHODS_MAP[m]; });
     }
     
     return cb(null, ctx);
