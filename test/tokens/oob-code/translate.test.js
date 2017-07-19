@@ -13,7 +13,7 @@ describe('tokens/oob-code/translate', function() {
   
   it('should be annotated', function() {
     expect(factory['@implements']).to.equal('http://i.bixbyjs.org/tokens/translateContextFunc');
-    expect(factory['@dialect']).to.equal('http://schemas.authnomicon.org/tokens/jwt/mfa-oob-code');
+    expect(factory['@dialect']).to.equal('http://schemas.authnomicon.org/jwt/oob-code');
   });
   
 });
