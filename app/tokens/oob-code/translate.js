@@ -2,20 +2,8 @@ exports = module.exports = function() {
   
   return function translate(ctx, options, cb) {
     var claims = {}
-      , chal, i, len;
+      , chal;
     
-    /*
-    if (ctx.user) {
-      claims.sub = ctx.user.id;
-    }
-    if (ctx.client) {
-      // https://tools.ietf.org/html/draft-ietf-oauth-token-exchange-07#section-4.3
-      claims.cid = ctx.client.id;
-    }
-    */
-      
-    // TODO: Bind to MFA token, if possible
-      
     if (ctx.challenge) {
       chal = ctx.challenge;
       switch (chal.method) {

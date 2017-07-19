@@ -1,4 +1,6 @@
 exports = module.exports = function(challenge, associate, Tokens) {
+  var hash = require('oidc-token-hash').generate;
+  
   
   return {
     
@@ -62,30 +64,36 @@ exports = module.exports = function(challenge, associate, Tokens) {
       });
     },  // associate
     
-    challenge: function(authnr, body, cb) {
+    challenge: function(authnr, options, cb) {
       
       challenge(authnr, function(err, txid) {
         if (err) { return cb(err); }
         
         var ctx = {};
-        // TODO: Remove these, hash with MFA token
-        //ctx.user = req.user;
-        //ctx.client = req.user;
-        ctx.audience = [ {
-          id: 'http://localhost/token',
-          //secret: 'some-shared-with-rs-s3cr1t-asdfasdfaieraadsfiasdfasd'
-          secret: 'some-secret-shared-with-oauth-authorization-server'
-        } ];
         ctx.challenge = {
           method: 'authn',
           authenticator: authnr,
           transactionID: txid
         }
+        
+        ctx.audience = [ {
+          id: 'http://localhost/token',
+          //secret: 'some-shared-with-rs-s3cr1t-asdfasdfaieraadsfiasdfasd'
+          secret: 'some-secret-shared-with-oauth-authorization-server'
+        } ];
       
         var opt = {};
         opt.dialect = 'http://schemas.authnomicon.org/jwt/oob-code';
         // TODO: Make this confidential
         opt.confidential = false;
+        opt.bindingCallback = function(alg, cb) {
+          var claims = {};
+          
+          if (options.sessionToken) {
+            claims.mt_hash = hash(options.sessionToken, alg);
+          }
+          return cb(null, claims);
+        }
     
         // TODO: Ensure that code has a TTL of 10 minutes
         Tokens.cipher(ctx, opt, function(err, oobCode) {

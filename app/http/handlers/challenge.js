@@ -65,10 +65,14 @@ exports = module.exports = function(Types, Authenticators, initialize, parse, au
       next();
     }
     
+    
+    var opts = {};
+    opts.sessionToken = req.body.mfa_token;
+    
     var arity = iface.challenge.length;
     switch (arity) {
     case 3:
-      return iface.challenge(authnr, req.body, challenged);
+      return iface.challenge(authnr, opts, challenged);
     default:
       return iface.challenge(authnr, challenged);
     }
