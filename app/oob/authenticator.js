@@ -36,7 +36,7 @@ exports = module.exports = function(challenge, associate, Tokens) {
         ctx.enroll = true;
       
         var opt = {};
-        opt.dialect = 'http://schemas.authnomicon.org/tokens/jwt/mfa-oob-code';
+        opt.dialect = 'http://schemas.authnomicon.org/jwt/oob-code';
         // TODO: Make this confidential
         opt.confidential = false;
     
@@ -83,7 +83,7 @@ exports = module.exports = function(challenge, associate, Tokens) {
         }
       
         var opt = {};
-        opt.dialect = 'http://schemas.authnomicon.org/tokens/jwt/mfa-oob-code';
+        opt.dialect = 'http://schemas.authnomicon.org/jwt/oob-code';
         // TODO: Make this confidential
         opt.confidential = false;
     

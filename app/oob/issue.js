@@ -33,7 +33,7 @@ exports = module.exports = function(verify, authenticators, Tokens) {
       //if (err) { return cb(err); }
       
       //Tokens.interpret(tok, { dialect: 'http://schemas.authnomicon.org/aaa/tokens/dialect/jwt/mfa-oob-code' }, function(err, claims) {
-      Tokens.decipher(oobCode, { dialect: 'http://schemas.authnomicon.org/tokens/jwt/mfa-oob-code' }, function(err, claims) {
+      Tokens.decipher(oobCode, { dialect: 'http://schemas.authnomicon.org/jwt/oob-code' }, function(err, claims) {
         console.log('INTERPRETED!');
         console.log(err);
         console.log(claims);

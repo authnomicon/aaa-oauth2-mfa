@@ -3,7 +3,7 @@
 var expect = require('chai').expect;
 
 
-describe('@authnomicon/aaa-oauth2-mfa', function() {
+describe('@authnomicon/oauth2-mfa', function() {
   
   describe('package.json', function() {
     var json = require('../package.json');
@@ -11,8 +11,8 @@ describe('@authnomicon/aaa-oauth2-mfa', function() {
     it('should have assembly metadata', function() {
       expect(json.assembly.namespace).to.equal('oauth2/mfa');
       
-      expect(json.assembly.components).to.have.length(7);
-      expect(json.assembly.components).to.include('oob/exchange');
+      expect(json.assembly.components).to.have.length(8);
+      expect(json.assembly.components).to.include('oob/grant');
     });
   });
   

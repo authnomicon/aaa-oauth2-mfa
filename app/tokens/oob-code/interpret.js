@@ -33,4 +33,4 @@ exports = module.exports = function() {
 };
 
 exports['@implements'] = 'http://i.bixbyjs.org/tokens/interpretClaimsFunc';
-exports['@dialect'] = 'http://schemas.authnomicon.org/tokens/jwt/mfa-oob-code';
+exports['@dialect'] = 'http://schemas.authnomicon.org/jwt/oob-code';
