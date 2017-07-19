@@ -31,9 +31,10 @@
       "oob/grant",
       "otp/grant",
       "recovery/grant",
-      "tokens/mfa/translate",
       "tokens/oob-code/interpret",
-      "tokens/oob-code/translate"
+      "tokens/oob-code/translate",
+      "tokens/session/interpret",
+      "tokens/session/translate"
     ]
   },
   "dependencies": {

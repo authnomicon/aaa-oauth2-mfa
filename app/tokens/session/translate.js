@@ -27,4 +27,4 @@ exports = module.exports = function() {
 };
 
 exports['@implements'] = 'http://i.bixbyjs.org/tokens/translateContextFunc';
-exports['@dialect'] = 'http://schemas.authnomicon.org/jwt/mfa';
+exports['@dialect'] = 'http://schemas.authnomicon.org/jwt/oauth-session';

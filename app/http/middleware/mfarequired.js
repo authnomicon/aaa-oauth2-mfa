@@ -21,17 +21,13 @@ exports = module.exports = function(Tokens) {
       ctx.request = err.req;
       
       var opt = {};
-      opt.dialect = 'http://schemas.authnomicon.org/jwt/mfa';
+      opt.dialect = 'http://schemas.authnomicon.org/jwt/oauth-session';
       // TODO: Make this confidential
       opt.confidential = false;
       
       // TODO: Ensure that code has a TTL of 10 minutes
       Tokens.cipher(ctx, opt, function(ierr, mfaToken) {
-        console.log(err);
-        console.log(mfaToken);
-        
         if (ierr) { return next(ierr); }
-        
         
         var e = {};
         e.error = 'mfa_required';

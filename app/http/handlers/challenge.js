@@ -2,35 +2,33 @@ exports = module.exports = function(Types, Authenticators, issueToken, authentic
   var merge = require('utils-merge');
   
   
-  function resumeSession(req, res, next) {
-    Tokens.decipher(req.body.mfa_token, function(err, claims, issuer) {
+  function restoreSession(req, res, next) {
+    var token = req.body.mfa_token;
+    
+    Tokens.decipher(token, { dialect: 'http://schemas.authnomicon.org/jwt/oauth-session' }, function(err, ctx) {
       if (err) { return next(err); }
       
-      // FIXME: Put this back
-      /*
-      authenticateToken(claims.subject, issuer, function(err, user) {
-        if (err) { return next(err); }
-        // TODO: 404, if no user
-        
-        req.client = req.user;
-        req.user = user;
-        next();
-      });
-      */
+      // TODO: Check that the client is the same as that in ctx.
       
-      req.user = { id: '1' }
+      req.oauth2 = {};
+      
+      // The HTTP credentials authenticate the OAuth client, and the subject of
+      // the token identifies the entity which is authorizing access.
+      req.oauth2.client = req.user;
+      req.user = ctx.subject;
+      
+      req.oauth2.req = ctx.request;
       next();
     });
   }
   
-  
-  function list(req, res, next) {
+  function loadAuthenticators(req, res, next) {
     // TODO: Pass the user record here.
-    Authenticators.list(req.user, function(err, authenticators) {
+    Authenticators.list(req.user, function(err, authnrs) {
       if (err) { return next(err); }
-      res.locals.authenticators = authenticators;
+      res.locals.authnrs = authnrs;
       
-      if (!authenticators || authenticators.length == 0 || authenticators[0].active === false) {
+      if (!authnrs || authnrs.length == 0 || authnrs[0].active === false) {
         // TODO: Make this a better error.
         res.json({ error: 'enrollment_required' });
         return;
@@ -38,6 +36,11 @@ exports = module.exports = function(Types, Authenticators, issueToken, authentic
       
       next();
     });
+  }
+  
+  function selectAuthenticator(req, res, next) {
+    req.locals.authnr = res.locals.authnrs[0];
+    next();
   }
   
   function obtainType(req, res, next) {
@@ -54,7 +57,7 @@ exports = module.exports = function(Types, Authenticators, issueToken, authentic
   
   function challengeAuthenticator(req, res, next) {
     var type = req.locals.type;
-    var authnr = res.locals.authenticators[0];
+    var authnr = req.locals.authnr;
     
     function challenged(err, params) {
       if (err) { return next(err); }
@@ -83,8 +86,9 @@ exports = module.exports = function(Types, Authenticators, issueToken, authentic
     initialize(),
     parse('application/x-www-form-urlencoded'),
     authenticate(['client_secret_basic', 'client_secret_post', 'none']),
-    resumeSession,
-    list,
+    restoreSession,
+    loadAuthenticators,
+    selectAuthenticator,
     obtainType,
     challengeAuthenticator,
     respond,
