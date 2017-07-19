@@ -77,11 +77,17 @@ exports = module.exports = function(challenge, associate, Tokens) {
         }
         
         ctx.audience = [ {
+          id: 'http://localhost/authorization_code',
+          secret: 'some-secret-shared-with-oauth-authorization-server'
+        } ];
+        /*
+        ctx.audience = [ {
           id: 'http://localhost/token',
           //secret: 'some-shared-with-rs-s3cr1t-asdfasdfaieraadsfiasdfasd'
           secret: 'some-secret-shared-with-oauth-authorization-server'
         } ];
-      
+        */
+        
         var opt = {};
         opt.dialect = 'http://schemas.authnomicon.org/jwt/oob-code';
         // TODO: Make this confidential
