@@ -16,10 +16,16 @@ exports = module.exports = function(Tokens) {
       ctx.authN = err.context;
       
       ctx.audience = [ {
+        id: 'http://localhost/authorization_code',
+        secret: 'some-secret-shared-with-oauth-authorization-server'
+      } ];
+      /*
+      ctx.audience = [ {
         id: 'http://localhost/mfa',
         secret: 'some-secret-shared-with-oauth-authorization-server'
         //secret: 'some-shared-with-rs-s3cr1t-asdfasdfaieraadsfiasdfasd'
       } ];
+      */
       //ctx.permissions = [ { resource: resources[0], scope: decision.allowed } ];
       
       var opt = {};
