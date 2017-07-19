@@ -1,4 +1,4 @@
-exports = module.exports = function(authenticate, Tokens) {
+exports = module.exports = function(authenticate) {
   
   return function(req, token, cb) {
     authenticate(token, { dialect: 'http://schemas.authnomicon.org/jwt/oauth-session' }, function(err, tkn, ctx) {
@@ -12,7 +12,6 @@ exports = module.exports = function(authenticate, Tokens) {
 };
 
 exports['@require'] = [
-  'http://i.bixbyjs.org/security/authentication/token/authenticate',
-  'http://i.bixbyjs.org/tokens'
+  'http://i.bixbyjs.org/security/authentication/token/authenticate'
 ];
 
