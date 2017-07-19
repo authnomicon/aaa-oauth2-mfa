@@ -1,11 +1,18 @@
-exports = module.exports = function(verify) {
+exports = module.exports = function(authenticate, Tokens) {
   
-  return function authenticate(req, token, cb) {
-    console.log('OAUTH 2.0 AUTHENTICATE 2FA');
-    console.log(token);
-    
-    return cb(null, { id: 1, username: 'johndoe' })
+  return function(req, token, cb) {
+    authenticate(token, { dialect: 'http://schemas.authnomicon.org/jwt/oauth-session' }, function(err, tkn, ctx) {
+      if (err) { return cb(err); }
+      
+      // TODO: Check token binding hashes, if any, or any other confirmation methods.
+      
+      return cb(null, ctx.subject, ctx.authN);
+    });
   };
 };
 
-exports['@require'] = [];
+exports['@require'] = [
+  'http://i.bixbyjs.org/security/authentication/token/authenticate',
+  'http://i.bixbyjs.org/tokens'
+];
+
