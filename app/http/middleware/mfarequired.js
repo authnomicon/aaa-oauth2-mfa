@@ -12,13 +12,15 @@ exports = module.exports = function(Tokens) {
       var ctx = {};
       ctx.user = err.user;
       ctx.client = req.user;
+      ctx.request = err.request;
+      ctx.authN = err.context;
+      
       ctx.audience = [ {
         id: 'http://localhost/mfa',
         secret: 'some-secret-shared-with-oauth-authorization-server'
         //secret: 'some-shared-with-rs-s3cr1t-asdfasdfaieraadsfiasdfasd'
       } ];
       //ctx.permissions = [ { resource: resources[0], scope: decision.allowed } ];
-      ctx.request = err.req;
       
       var opt = {};
       opt.dialect = 'http://schemas.authnomicon.org/jwt/oauth-session';

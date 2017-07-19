@@ -43,11 +43,11 @@ exports = module.exports = function(Types, Authenticators, issueToken, authentic
     next();
   }
   
-  function obtainType(req, res, next) {
+  function obtainInterface(req, res, next) {
     // TODO: Iterate over authenticator types property to get this (for fallbacks to OTP, etc)
     
     try {
-      req.locals.type = Types.obtainAuthenticator('oob');
+      req.locals.iface = Types.obtainAuthenticator('oob');
     } catch (ex) {
       // TODO: next() this as a AuthorizationError of appropriate type
       return next(ex);
@@ -56,7 +56,7 @@ exports = module.exports = function(Types, Authenticators, issueToken, authentic
   }
   
   function challengeAuthenticator(req, res, next) {
-    var type = req.locals.type;
+    var iface = req.locals.iface;
     var authnr = req.locals.authnr;
     
     function challenged(err, params) {
@@ -65,12 +65,12 @@ exports = module.exports = function(Types, Authenticators, issueToken, authentic
       next();
     }
     
-    var arity = type.challenge.length;
+    var arity = iface.challenge.length;
     switch (arity) {
     case 3:
-      return type.challenge(authnr, req.body, challenged);
+      return iface.challenge(authnr, req.body, challenged);
     default:
-      return type.challenge(authnr, challenged);
+      return iface.challenge(authnr, challenged);
     }
   }
   
@@ -89,7 +89,7 @@ exports = module.exports = function(Types, Authenticators, issueToken, authentic
     restoreSession,
     loadAuthenticators,
     selectAuthenticator,
-    obtainType,
+    obtainInterface,
     challengeAuthenticator,
     respond,
   ];

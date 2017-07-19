@@ -1,4 +1,6 @@
 exports = module.exports = function() {
+  var Constants = require('../../../lib/constants');
+  
   
   return function translate(ctx, options, cb) {
     var claims = {};
@@ -20,6 +22,10 @@ exports = module.exports = function() {
       if (ctx.request.audience) {
         claims.req.aud = ctx.request.audience;
       }
+    }
+    
+    if (ctx.authN) {
+      claims.amr = ctx.authN.methods.map(function(m) { return Constants.AMR_AUTHN_METHODS_MAP[m]; });
     }
     
     return cb(null, claims);
