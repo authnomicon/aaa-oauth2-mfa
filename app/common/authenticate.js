@@ -14,4 +14,3 @@ exports = module.exports = function(authenticate) {
 exports['@require'] = [
   'http://i.bixbyjs.org/security/authentication/token/authenticate'
 ];
-

@@ -1,4 +1,4 @@
-exports = module.exports = function(Types, Authenticators, initialize, parse, authenticate, Tokens) {
+exports = module.exports = function(Types, Authenticators, initialize, parse, authenticate, errorLogging, errorHandler, Tokens) {
   var merge = require('utils-merge');
   
   
@@ -96,6 +96,8 @@ exports = module.exports = function(Types, Authenticators, initialize, parse, au
     obtainInterface,
     challengeAuthenticator,
     respond,
+    errorLogging(),
+    errorHandler()
   ];
   
 };
@@ -106,5 +108,7 @@ exports['@require'] = [
   'http://i.bixbyjs.org/http/middleware/initialize',
   'http://i.bixbyjs.org/http/middleware/parse',
   'http://i.bixbyjs.org/http/middleware/authenticate',
+  'http://i.bixbyjs.org/http/middleware/errorLogging',
+  'http://schemas.authnomicon.org/js/http/oauth2/middleware/errorHandler',
   'http://i.bixbyjs.org/tokens'
 ];
