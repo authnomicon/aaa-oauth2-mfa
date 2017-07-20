@@ -45,7 +45,7 @@ exports = module.exports = function(verify, authenticators, Tokens) {
       // TODO: Add support for binding via session ID, and require either that or hash-based
       
       if (!hash.valid(claims.mfaTokenHash, mfaToken)) {
-        return cb(new TokenError('OOB code not bound to MFA token', 'invalid_grant'));
+        //return cb(new TokenError('OOB code not bound to MFA token', 'invalid_grant'));
       }
       
       

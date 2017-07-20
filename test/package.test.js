@@ -11,13 +11,18 @@ describe('@authnomicon/oauth2-mfa', function() {
     it('should have assembly metadata', function() {
       expect(json.assembly.namespace).to.equal('oauth2/mfa');
       
-      expect(json.assembly.components).to.have.length(8);
+      expect(json.assembly.components).to.have.length(11);
+      expect(json.assembly.components).to.include('http/challenge');
+      expect(json.assembly.components).to.include('http/association');
+      expect(json.assembly.components).to.include('http/middleware/mfarequired');
       expect(json.assembly.components).to.include('oob/authenticator');
       expect(json.assembly.components).to.include('oob/grant');
       expect(json.assembly.components).to.include('otp/grant');
       expect(json.assembly.components).to.include('recovery/grant');
       expect(json.assembly.components).to.include('tokens/oob-code/interpret');
       expect(json.assembly.components).to.include('tokens/oob-code/translate');
+      expect(json.assembly.components).to.include('tokens/session/interpret');
+      expect(json.assembly.components).to.include('tokens/session/translate');
     });
   });
   
