@@ -9,10 +9,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/authnomicon/aaa-oauth2-mfa.git"
+    "url": "git://github.com/authnomicon/oauth2-mfa.git"
   },
   "bugs": {
-    "url": "http://github.com/authnomicon/aaa-oauth2-mfa/issues"
+    "url": "http://github.com/authnomicon/oauth2-mfa/issues"
   },
   "license": "MIT",
   "licenses": [
