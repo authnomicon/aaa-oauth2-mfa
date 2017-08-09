@@ -140,7 +140,7 @@ exports['@require'] = [
   'http://i.bixbyjs.org/http/middleware/initialize',
   'http://i.bixbyjs.org/http/middleware/parse',
   'http://i.bixbyjs.org/http/middleware/errorLogging',
-  'http://schemas.authnomicon.org/js/http/oauth2/middleware/errorHandler',
+  'http://schemas.authnomicon.org/js/oauth2/http/middleware/errorHandler',
   'http://schemas.authnomicon.org/js/security/authentication/oob/associate',
   //'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/associate',
   'http://i.bixbyjs.org/tokens'

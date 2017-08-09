@@ -50,7 +50,7 @@ exports = module.exports = function(Tokens) {
   };
 };
 
-exports['@implements'] = 'http://schemas.authnomicon.org/js/http/oauth2/mfa/middleware/mfaRequiredErrorHandler';
+exports['@implements'] = 'http://schemas.authnomicon.org/js/oauth2/http/middleware/mfaRequiredErrorHandler';
 exports['@require'] = [
   'http://i.bixbyjs.org/tokens'
 ];

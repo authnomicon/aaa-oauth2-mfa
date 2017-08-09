@@ -7,7 +7,7 @@ exports = module.exports = function(createHandler) {
   return router;
 };
 
-exports['@implements'] = 'http://schemas.authnomicon.org/js/http/oauth2/mfa/AssociationService';
+exports['@implements'] = 'http://schemas.authnomicon.org/js/oauth2/http/MFAAssociationService';
 exports['@require'] = [
   './handlers/association/create'
 ];
