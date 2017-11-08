@@ -1,4 +1,4 @@
-exports = module.exports = function(challenge, associate, Tokens) {
+exports = module.exports = function(OOB, Tokens) {
   var hash = require('oidc-token-hash').generate;
   
   
@@ -9,7 +9,7 @@ exports = module.exports = function(challenge, associate, Tokens) {
       console.log(user);
       console.log(body);
       
-      associate(user, { channel: 'auth0' }, function(err, authnr, txid, rparams) {
+      OOB.associate(user, { channel: 'auth0' }, function(err, authnr, txid, rparams) {
         console.log('ASSOCIATED');
         console.log(err);
         console.log(authnr);
@@ -66,7 +66,7 @@ exports = module.exports = function(challenge, associate, Tokens) {
     
     challenge: function(authnr, options, cb) {
       
-      challenge(authnr, function(err, txid) {
+      OOB.challenge(authnr, function(err, txid) {
         if (err) { return cb(err); }
         
         var ctx = {};
@@ -128,7 +128,6 @@ exports = module.exports = function(challenge, associate, Tokens) {
 exports['@implements'] = 'http://schemas.authnomicon.org/js/oauth2/mfa/authenticatorType';
 exports['@type'] = 'oob';
 exports['@require'] = [
-  'http://schemas.authnomicon.org/js/security/authentication/oob/challenge',
-  'http://schemas.authnomicon.org/js/security/authentication/oob/associate',
+  'http://schemas.authnomicon.org/js/security/authentication/oob',
   'http://i.bixbyjs.org/tokens'
 ];

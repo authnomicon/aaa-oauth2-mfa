@@ -1,4 +1,4 @@
-exports = module.exports = function(Types, initialize, parse, errorLogging, errorHandler, oobAssociate, Tokens) {
+exports = module.exports = function(Types, initialize, parse, errorLogging, errorHandler, OOB, Tokens) {
   var merge = require('utils-merge');
   
   
@@ -62,7 +62,7 @@ exports = module.exports = function(Types, initialize, parse, errorLogging, erro
     
     return;
     
-    oobAssociate(req.user, { channel: 'auth0' }, function(err, params) {
+    OOB.associate(req.user, { channel: 'auth0' }, function(err, params) {
       if (err) { return next(err); }
       
       var ctx = {};
@@ -141,7 +141,7 @@ exports['@require'] = [
   'http://i.bixbyjs.org/http/middleware/parse',
   'http://i.bixbyjs.org/http/middleware/errorLogging',
   'http://schemas.authnomicon.org/js/oauth2/http/middleware/errorHandler',
-  'http://schemas.authnomicon.org/js/security/authentication/oob/associate',
+  'http://schemas.authnomicon.org/js/security/authentication/oob',
   //'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/associate',
   'http://i.bixbyjs.org/tokens'
 ];
