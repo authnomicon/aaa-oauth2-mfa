@@ -1,4 +1,4 @@
-exports = module.exports = function(verify, authenticators, Tokens) {
+exports = module.exports = function(OOB, authenticators, Tokens) {
   var hash = require('oidc-token-hash');
   var TokenError = require('oauth2orize-mfa').TokenError;
   
@@ -69,7 +69,7 @@ exports = module.exports = function(verify, authenticators, Tokens) {
           opts.enroll = true;
         }
         
-        verify(authenticator, claims.challenge.transactionID, opts, function(err, ok) {
+        OOB.verify(authenticator, claims.challenge.transactionID, opts, function(err, ok) {
           if (err) { return cb(err); }
           if (ok === undefined) {
             return cb(new TokenError('Authorization pending', 'authorization_pending'));
@@ -92,7 +92,7 @@ exports = module.exports = function(verify, authenticators, Tokens) {
 exports['@require'] = [
   //'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/oob/verify'
   //'http://schemas.authnomicon.org/js/login/mfa/opt/duo/oob/verify',
-  'http://schemas.authnomicon.org/js/security/authentication/oob/verify',
+  'http://schemas.authnomicon.org/js/security/authentication/oob',
   'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/UserAuthenticatorsDirectory',
   'http://i.bixbyjs.org/tokens'
 ];
