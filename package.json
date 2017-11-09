@@ -50,7 +50,9 @@
     "make-node": "^0.3.0",
     "mocha": "^4.0.1",
     "chai": "^4.1.1",
-    "sinon": "^4.0.2"
+    "sinon": "^4.0.2",
+    "sinon-chai": "^2.8.0",
+    "proxyquire": "^1.7.0"
   },
   "scripts": {
     "test": "node_modules/.bin/mocha test/*.test.js"
