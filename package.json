@@ -1,11 +1,18 @@
 {
-  "name": "nodex-aaa-oauth2-mfa",
+  "name": "@authnomicon/oauth2-mfa",
   "version": "0.0.0",
   "description": "",
   "author": {
     "name": "Jared Hanson",
     "email": "jaredhanson@gmail.com",
     "url": "http://jaredhanson.net/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/authnomicon/oauth2-mfa.git"
+  },
+  "bugs": {
+    "url": "http://github.com/authnomicon/oauth2-mfa/issues"
   },
   "license": "MIT",
   "licenses": [
@@ -14,16 +21,38 @@
       "url": "http://opensource.org/licenses/MIT"
     }
   ],
-  "main": "./index.js",
+  "main": "./app",
+  "assembly": {
+    "namespace": "oauth2/mfa",
+    "components": [
+      "http/challenge",
+      "http/association",
+      "http/middleware/mfarequired",
+      "oob/authenticator",
+      "oob/grant",
+      "otp/grant",
+      "recovery/grant",
+      "tokens/oob-code/interpret",
+      "tokens/oob-code/translate",
+      "tokens/session/interpret",
+      "tokens/session/translate"
+    ]
+  },
   "dependencies": {
     "authy": "^1.2.0",
     "body-parser": "^1.15.2",
-    "duo_api": "git://github.com/duosecurity/duo_api_nodejs.git#7c523ec"
+    "duo_api": "git://github.com/duosecurity/duo_api_nodejs.git#7c523ec",
+    "express": "^4.15.3",
+    "oidc-token-hash": "^1.0.1",
+    "utils-merge": "^1.0.0"
   },
   "devDependencies": {
     "make-node": "^0.3.0",
-    "mocha": "^2.0.0",
-    "chai": "^3.0.0"
+    "mocha": "^4.0.1",
+    "chai": "^4.1.1",
+    "sinon": "^4.0.2",
+    "sinon-chai": "^2.8.0",
+    "proxyquire": "^1.7.0"
   },
   "scripts": {
     "test": "node_modules/.bin/mocha test/*.test.js"
