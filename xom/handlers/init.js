@@ -72,8 +72,8 @@ exports = module.exports = function(challenge, authenticators) {
 };
 
 exports['@require'] = [
-  'http://schemas.authnomicon.org/js/login/mfa/opt/authy/challenge',
+  //'http://schemas.authnomicon.org/js/login/mfa/opt/authy/challenge',
   //'http://schemas.authnomicon.org/js/login/mfa/opt/duo/challenge',
-  //'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/challenge',
-  'http://schemas.authnomicon.org/js/login/mfa/opt/authy/UserAuthenticatorsDirectory'
+  'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/challenge',
+  'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/UserAuthenticatorsDirectory'
 ];

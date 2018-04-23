@@ -43,8 +43,8 @@ exports = module.exports = function(verify, authenticators) {
 };
 
 exports['@require'] = [
-  'http://schemas.authnomicon.org/js/login/mfa/opt/authy/otp/verify',
-  //'http://schemas.authnomicon.org/js/login/mfa/opt/duo/otp/verify'
-  //'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/otp/verify',
-  'http://schemas.authnomicon.org/js/login/mfa/opt/authy/UserAuthenticatorsDirectory'
+  //'http://schemas.authnomicon.org/js/login/mfa/opt/authy/otp/verify',
+  //'http://schemas.authnomicon.org/js/login/mfa/opt/duo/otp/verify',
+  'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/otp/verify',
+  'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/UserAuthenticatorsDirectory'
 ];

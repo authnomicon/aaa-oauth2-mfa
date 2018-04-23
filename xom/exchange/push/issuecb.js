@@ -21,6 +21,7 @@ exports = module.exports = function(verify, authenticators) {
   
   return function issueToken(client, user, oobCode, scope, body, onefaInfo, authInfo, cb) {
     console.log('Verify the MFA txn/code, etc...');
+    console.log(oobCode)
     console.log(body);
     
     // TODO: Decode the oob code to determine the authenticator ID, context
@@ -32,6 +33,7 @@ exports = module.exports = function(verify, authenticators) {
       if (err) { return cb(err); }
     
       var transactionID = undefined;
+      context.transactionID = oobCode;
       var opts = { context: context };
       if (body.confirmation_code) {
         opts.secret = body.confirmation_code;
@@ -58,7 +60,8 @@ exports = module.exports = function(verify, authenticators) {
 
 
 exports['@require'] = [
-  //'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/oob/verify'
-  'http://schemas.authnomicon.org/js/login/mfa/opt/authy/oob/verify',
-  'http://schemas.authnomicon.org/js/login/mfa/opt/authy/UserAuthenticatorsDirectory'
+  'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/oob/verify',
+  //'http://schemas.authnomicon.org/js/login/mfa/opt/authy/oob/verify',
+  //'http://schemas.authnomicon.org/js/login/mfa/opt/duo/oob/verify',
+  'http://schemas.authnomicon.org/js/login/mfa/opt/auth0/UserAuthenticatorsDirectory'
 ];
