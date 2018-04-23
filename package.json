@@ -23,7 +23,7 @@
   ],
   "main": "./app",
   "assembly": {
-    "namespace": "oauth2/mfa",
+    "namespace": "org.authnomicon/oauth2/mfa",
     "components": [
       "http/challenge",
       "http/association",

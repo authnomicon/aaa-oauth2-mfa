@@ -9,7 +9,7 @@ describe('@authnomicon/oauth2-mfa', function() {
     var json = require('../package.json');
     
     it('should have assembly metadata', function() {
-      expect(json.assembly.namespace).to.equal('oauth2/mfa');
+      expect(json.assembly.namespace).to.equal('org.authnomicon/oauth2/mfa');
       
       expect(json.assembly.components).to.have.length(11);
       expect(json.assembly.components).to.include('http/challenge');
